@@ -19,6 +19,10 @@ const executeTouch = function (msg) {
   files.push(msg);
 };
 
+const executeMkdir = function (msg) {
+  files.push(msg);
+};
+
 const executeCommand = function ([cmd, ...msg]) {
   switch (cmd) {
     case "echo": return executeEcho(msg);
@@ -28,6 +32,8 @@ const executeCommand = function ([cmd, ...msg]) {
     case "ls": return executeLs();
 
     case "touch": return executeTouch(msg);
+
+    case "mkdir": return executeMkdir(msg);
   }
 };
 

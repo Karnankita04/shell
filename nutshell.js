@@ -8,10 +8,14 @@ const executeEcho = function (msg) {
 };
 
 const executeCd = function (msg) {
-  directory.push(msg.join(" "));
+  if (msg.join("") === "..") {
+    currDir = directory.at(directory.indexOf(currDir) - 1);
+    return;
+  }
+  currDir = directory.slice(-1).join();
 };
 
-const executeLs = function () {
+const executeLs = () => {
   return files.join("         ");
 };
 
@@ -20,25 +24,30 @@ const executeTouch = function (msg) {
 };
 
 const executeMkdir = function (msg) {
-  files.push(msg);
+  directory.push(msg.join(" "));
 };
 
 const executeCommand = function ([cmd, ...msg]) {
   switch (cmd) {
-    case "echo": return executeEcho(msg);
+    case "echo":
+      return executeEcho(msg);
 
-    case "cd": return executeCd(msg);
+    case "cd":
+      return executeCd(msg);
 
-    case "ls": return executeLs();
+    case "ls":
+      return executeLs();
 
-    case "touch": return executeTouch(msg);
+    case "touch":
+      return executeTouch(msg);
 
-    case "mkdir": return executeMkdir(msg);
+    case "mkdir":
+      return executeMkdir(msg);
   }
 };
 
 while (true) {
-  const command = prompt(path + directory.at(-1) + " %");
+  const command = prompt(path + currDir + " %");
   const output = executeCommand(command.split(" "));
 
   if (output !== undefined) {
